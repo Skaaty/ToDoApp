@@ -1,0 +1,63 @@
+########################################
+# Build & packaging artifacts
+########################################
+bin/
+obj/
+*.exe
+*.dll
+*.pdb
+*.app
+*.appx
+*.appxbundle
+*.msi
+*.nupkg
+*.snupkg
+*.vsix
+*.zip
+*.tar.gz
+
+########################################
+# Visual Studio / Rider workspace data
+########################################
+.vs/
+.idea/
+.ReSharper*/
+*_ReSharper*/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+########################################
+# Rider & VSCode settings
+########################################
+.vscode/
+.idea/
+*.code-workspace
+
+########################################
+# ASP.NET / EF Core generated files
+########################################
+appsettings.Development.json
+appsettings.Local.json
+appsettings.*.json
+Migrations/
+
+########################################
+# Logs, database & telemetry
+########################################
+*.log
+*.ldb
+*.sqlite
+*.db
+*.db-journal
+
+########################################
+# Misc: OS and editor cruft
+########################################
+*.DS_Store
+Thumbs.db
+ehthumbs.db
+*.orig
+*.bak
+*.tmp
