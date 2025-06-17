@@ -3,9 +3,9 @@ using static TodoApi.DTOs.TagDto;
 
 namespace TodoApi.Validation
 {
-    public class CreateTagValidator : AbstractValidator<CreateTagDTO>
+    public class UpdateTagValidator : AbstractValidator<CreateTagDTO>
     {
-        public CreateTagValidator()
+        public UpdateTagValidator()
         {
             RuleFor(x => x.Name)
                 .NotEmpty()
