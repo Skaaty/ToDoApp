@@ -17,10 +17,7 @@ namespace TodoApi.Controllers
         private readonly IMapper _mapper;
 
         public TaskListsController(TodoContext todoContext, IMapper mapper)
-        {
-            _todoContext = todoContext;
-            _mapper = mapper;
-        }
+            => (_todoContext,  _mapper) = (todoContext, mapper);
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TaskListDTO>>> GetAll()
@@ -40,7 +37,7 @@ namespace TodoApi.Controllers
             return CreatedAtAction(nameof(Get), new { id = entity.Id }, _mapper.Map<TaskListDTO>(entity));
         }
 
-        [HttpPut("{id:int}")]
+        [HttpPut("{id}")]
         public async Task<ActionResult<TaskListDTO>> Update(int id, TaskListDTO dto)
         {
             var entity = await _todoContext.TaskLists.FindAsync(id);
@@ -51,7 +48,7 @@ namespace TodoApi.Controllers
             return Ok(_mapper.Map<TaskListDTO>(entity));
         }
 
-        [HttpDelete("{id:int}")]
+        [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {
             var entity = await _todoContext.TaskLists.FindAsync(id);

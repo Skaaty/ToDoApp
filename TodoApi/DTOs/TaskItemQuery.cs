@@ -9,6 +9,6 @@ namespace TodoApi.DTOs
         public bool? IsCompleted { get; init; }
         public PriorityLevel? Priority { get; init; }
         public DateTime? DueDate { get; init; }
-        public int? TaskId { get; init; }
+        public int? TagId { get; init; }
     }
 }
