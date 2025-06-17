@@ -21,9 +21,8 @@
 
   <ItemGroup>
     <Folder Include="Controllers\" />
-    <Folder Include="Data\" />
     <Folder Include="DTOs\" />
-    <Folder Include="Mapping\" />
+    <Folder Include="Services\" />
     <Folder Include="Validation\" />
   </ItemGroup>
 
