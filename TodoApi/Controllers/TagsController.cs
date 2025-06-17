@@ -17,7 +17,7 @@ namespace TodoApi.Controllers
     public class TagsController : ControllerBase
     {
         private readonly TodoContext _todoContext;
-        private readonly Mapper _mapper;
+        private readonly IMapper _mapper;
 
         public TagsController(TodoContext todoContext, Mapper mapper)
             => (_todoContext, _mapper) = (todoContext, mapper);
