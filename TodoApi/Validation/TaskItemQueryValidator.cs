@@ -12,7 +12,7 @@ namespace TodoApi.Validation
             RuleFor(x => x.PageSize)
                 .InclusiveBetween(1, 100);
 
-            RuleFor(x => x.TaskId)
+            RuleFor(x => x.TagId)
                 .Must(id => id is null || id > 0);
 
             RuleFor(x => x.DueDate)
