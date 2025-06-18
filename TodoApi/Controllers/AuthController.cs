@@ -8,8 +8,9 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace TodoApi.Controllers
 {
+    
+    [Route("api/[controller]")]
     [ApiController]
-    [Route("api/[controller]")
     public class AuthController : ControllerBase
     {
         private readonly UserManager<IdentityUser> _userManager;
@@ -48,12 +49,14 @@ namespace TodoApi.Controllers
                 new Claim(ClaimTypes.Name, user.UserName!)
             };
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_cfg["Jwt:Key"]!));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_cfg["JwtSettings:Key"]!));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var jwt = new JwtSecurityToken(
                 claims: claims,
-                expires: DateTime.UtcNow.AddHours(int.Parse(_cfg["Jwt:ExpiresHours"]!)),
+                audience: _cfg["JwtSettings:Audience"],
+                issuer: _cfg["JwtSettings:Issuer"],
+                expires: DateTime.UtcNow.AddHours(int.Parse(_cfg["JwtSettings:ExpiresHours"]!)),
                 signingCredentials: creds);
 
             return new JwtSecurityTokenHandler().WriteToken(jwt);

@@ -11,8 +11,9 @@ using Microsoft.VisualBasic;
 
 namespace TodoApi.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
-    [ApiController, Authorize]
+    [ApiController]
     public class TaskItemsController : ControllerBase
     {
         private readonly TodoContext _todoContext;

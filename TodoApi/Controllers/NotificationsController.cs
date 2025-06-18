@@ -12,8 +12,9 @@ using System.Collections;
 
 namespace TodoApi.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
-    [ApiController, Authorize]
+    [ApiController]
     public class NotificationsController : ControllerBase
     {
         private readonly TodoContext _todoContext;

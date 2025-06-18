@@ -17,8 +17,9 @@ namespace TodoApi
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            var config = builder.Configuration;
 
-            // Configure SQLite DbContext
+            //SQLite DbContext
             builder.Services.AddDbContext<TodoContext>(opt =>
                     opt.UseSqlite(builder.Configuration.GetConnectionString("Default") ??
                               "Data Source=todo.db"));
@@ -26,25 +27,28 @@ namespace TodoApi
             builder.Services.AddIdentity<IdentityUser, IdentityRole>()
                     .AddEntityFrameworkStores<TodoContext>();
 
-            string jwtKey = builder.Configuration["Jwt:Key"]
-                ?? throw new InvalidOperationException("Missing Jwt:Key");
-
-            if (jwtKey.Length < 32)
-                throw new InvalidOperationException("Jwt:Key must be >= 32 characters long.");
-
-
-            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
+            // Jwt
+            builder.Services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(x =>
+            {
+                x.TokenValidationParameters = new TokenValidationParameters
                 {
-                    options.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuer = false,
-                        ValidateAudience = false,
-                        ValidateLifetime = true,
-                        ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
-                    };
-                });
+                    ValidIssuer = config["JwtSettings:Issuer"],
+                    ValidAudience = config["JwtSettings:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey
+                        (Encoding.UTF8.GetBytes(config["JwtSettings:Key"]!)),
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true
+                };
+            });
+
+            builder.Services.AddAuthorization();
 
             // Register AutoMapper profiles
             builder.Services.AddAutoMapper(typeof(MappingService));
@@ -89,7 +93,6 @@ namespace TodoApi
             app.UseAuthentication();
             app.UseAuthorization();
 
-            // Map attribute‑routed controllers
             app.MapControllers();
 
             app.Run();
