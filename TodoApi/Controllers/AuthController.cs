@@ -1,14 +1,15 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 
 namespace TodoApi.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")
     public class AuthController : ControllerBase
     {
         private readonly UserManager<IdentityUser> _userManager;
@@ -18,6 +19,7 @@ namespace TodoApi.Controllers
             => (_userManager, _cfg) = (userManager, cfg);
 
         [HttpPost("register")]
+        [AllowAnonymous]
         public async Task<ActionResult> Register(RegisterDto dto)
         {
             var user = new IdentityUser { UserName = dto.UserName, Email = dto.Email };
@@ -27,6 +29,7 @@ namespace TodoApi.Controllers
         }
 
         [HttpPost("login")]
+        [AllowAnonymous]
         public async Task<ActionResult> Login(LoginDto dto)
         {
             var user = await _userManager.FindByNameAsync(dto.UserName);

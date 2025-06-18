@@ -10,7 +10,8 @@ using static TodoApi.DTOs.TaskListDto;
 
 namespace TodoApi.Controllers
 {
-    [Route("api/[controller]"), ApiController, Authorize]
+    [ApiController]
+    [Route("api/[controller]")]
     public class TaskListsController : ControllerBase
     {
         private readonly TodoContext _todoContext;

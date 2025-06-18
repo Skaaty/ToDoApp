@@ -26,7 +26,13 @@ namespace TodoApi
             builder.Services.AddIdentity<IdentityUser, IdentityRole>()
                     .AddEntityFrameworkStores<TodoContext>();
 
-            string jwtKey = builder.Configuration["Jwt:Key"]!;
+            string jwtKey = builder.Configuration["Jwt:Key"]
+                ?? throw new InvalidOperationException("Missing Jwt:Key");
+
+            if (jwtKey.Length < 32)
+                throw new InvalidOperationException("Jwt:Key must be >= 32 characters long.");
+
+
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
