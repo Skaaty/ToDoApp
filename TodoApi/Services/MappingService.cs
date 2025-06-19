@@ -12,7 +12,7 @@ namespace TodoApi.Services
     {
         public MappingService()
         {
-            //Task List
+            //TaskList maps
             CreateMap<TaskList, TaskListDto>();
 
             CreateMap<TaskListDto, TaskList>()
@@ -25,20 +25,27 @@ namespace TodoApi.Services
                 .ForMember(d => d.UserId, o => o.Ignore())
                 .ForMember(d => d.Items, o => o.Ignore());
 
-            CreateMap<Tag, TagDto>();
-            CreateMap<CreateTagDto,  TagDto>();
-            CreateMap<UpdateTaskListDto,  TagDto>();
+            //Tag maps
+            CreateMap<Tag,  TagDto>();
+            CreateMap<CreateTagDto, Tag>();
+            CreateMap<UpdateTagDto, Tag>()
+                .ForMember(d => d.Id, o => o.Ignore());
 
-            CreateMap<Notification, NotificationDto>();
-            CreateMap<CreateNotificationDto, Notification>();
-
+            //Items maps
             CreateMap<TaskItem, TaskItemDto>()
-                .ForMember(d => d.Tags, opt =>
-                    opt.MapFrom(s => s.TaskItemTags.Select(t => t.Tag!.Name)));
+                .ForCtorParam("TagNames",
+                opt => opt.MapFrom(src => src.TaskItemTags
+                          .Select(t => t.Tag!.Name)));
 
             CreateMap<CreateTaskItemDto, TaskItem>();
             CreateMap<UpdateTaskItemDto, TaskItem>()
                 .ForMember(d => d.TaskItemTags, opt => opt.Ignore());
+
+
+            CreateMap<Notification, NotificationDto>();
+            CreateMap<CreateNotificationDto, Notification>();
+
+            
 
         }
     }
