@@ -7,8 +7,6 @@ namespace TodoApi.Validation
     {
         public CreateNotificationValidator()
         {
-            RuleFor(x => x.UserId)
-                .GreaterThan(0);
 
             RuleFor(x => x.Message)
                 .NotEmpty()
