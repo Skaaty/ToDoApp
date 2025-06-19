@@ -6,6 +6,7 @@ using AutoMapper;
 using TodoApi.Data;
 using TodoApi.Models;
 using TodoApi.DTOs;
+using System.Security.Claims;
 
 namespace TodoApi.Controllers
 {
@@ -16,6 +17,9 @@ namespace TodoApi.Controllers
     {
         private readonly TodoContext _todoContext;
         private readonly IMapper _mapper;
+
+        private static string CurrentUserId(ClaimsPrincipal user)
+            => user.FindFirstValue(ClaimTypes.NameIdentifier)!;
 
         public TaskListsController(TodoContext todoContext, IMapper mapper)
             => (_todoContext,  _mapper) = (todoContext, mapper);
@@ -32,10 +36,13 @@ namespace TodoApi.Controllers
         public async Task<ActionResult<TaskListDto>> Create(CreateTaskListDto dto)
         {
             var entity = _mapper.Map<TaskList>(dto);
-            entity.UserId = 1;
+            entity.UserId = CurrentUserId(User);
+
             _todoContext.TaskLists.Add(entity);
+
             await _todoContext.SaveChangesAsync();
-            return CreatedAtAction(nameof(Get), new { id = entity.Id }, _mapper.Map<TaskListDto>(entity));
+            return CreatedAtAction(nameof(Get), new { id = entity.Id },
+                                    _mapper.Map<TaskListDto>(entity));
         }
 
         [HttpPut("{id:int}")]
