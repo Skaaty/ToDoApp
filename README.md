@@ -1,8 +1,8 @@
-# 📝 ToDoApp – Clean ASP.NET Core 7 Todo API
+# 📝 ToDoApp - WebApi 
 
 ![License](https://img.shields.io/badge/license-MIT-blue)
 
-A fully-featured **task-tracking REST API** written in **ASP.NET Core 7** with Entity Framework Core, AutoMapper and JWT authentication (access- & refresh-tokens).  
+A fully-featured **task-tracking REST API** written in **ASP.NET Core** with Entity Framework Core, AutoMapper and JWT authentication (access- & refresh-tokens).  
 Easily clone, run & extend the code for your own projects.
 
 ---
@@ -12,7 +12,7 @@ Easily clone, run & extend the code for your own projects.
 | Area | What you get |
 |------|--------------|
 | **Domain** | Task lists → Task items → Tags, plus optional notifications |
-| **Auth**  | Register / log in, short-lived **access-tokens** (15 min) + **refresh-tokens** (14 days) |
+| **Auth**  | Register / log in, short-lived **access-tokens** (15 min) |
 | **Security** | BCrypt password hash, HMAC-SHA256 JWTs, per-user data filtering |
 | **API docs** | Live **Swagger UI** + OpenAPI 3 schema |
 | **Persistence** | EF Core 7, SQLite by default (swap for SQL Server/MySQL/Postgres easily) |
@@ -24,18 +24,17 @@ Easily clone, run & extend the code for your own projects.
 
 ## 🏗️ Tech Stack
 
-* **ASP.NET Core 7** – Minimal-hosting model  
-* **Entity Framework Core 7** – code-first migrations  
+* **ASP.NET Core** – Minimal-hosting model  
+* **Entity Framework Core** – code-first migrations  
 * **AutoMapper** – DTO ↔︎ Entity mappings  
 * **System.IdentityModel.Tokens.Jwt** – JWT handling  
 * **Swashbuckle.AspNetCore** – Swagger UI / OpenAPI  
-* **xUnit**, **WebApplicationFactory** – testing
 
 ---
 
 ## 🚀 Quick start (local dev)
 
-> Prerequisites: **.NET 7 SDK** & **SQLite** CLI (or change the provider).
+> Prerequisites: **.NET SDK** & **SQLite** CLI (or change the provider).
 
 ```bash
 git clone https://github.com/Skaaty/ToDoApp.git
