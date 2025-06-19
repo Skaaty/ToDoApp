@@ -26,33 +26,40 @@ namespace TodoApi.Controllers
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TaskListDto>>> GetAll()
-            => Ok(_mapper.Map<IEnumerable<TaskListDto>>(await _todoContext.TaskLists.ToListAsync()));
+        {
+            var userId = CurrentUserId(User);
+            var lists = await _todoContext.TaskLists.Where(t => t.UserId == userId).ToListAsync();
+
+            return Ok(_mapper.Map<IEnumerable<TaskListDto>>(lists));
+        }
 
         [HttpGet("{id:int}")]
         public async Task<ActionResult<TaskListDto>> Get(int id)
-            => await _todoContext.TaskLists.FindAsync(id) is TaskList tl ? Ok(_mapper.Map<TaskListDto>(tl)) : NotFound();
+        {
+            var entity = await _todoContext.TaskLists.SingleOrDefaultAsync(t => t.Id == id && t.UserId == CurrentUserId(User));
+            if (entity is null) return NotFound();
+
+            return Ok(_mapper.Map<TaskListDto>(entity));
+        }
+            
 
         [HttpPost]
         public async Task<ActionResult<TaskListDto>> Create(CreateTaskListDto dto)
         {
             var entity = _mapper.Map<TaskList>(dto);
             entity.UserId = CurrentUserId(User);
-
             _todoContext.TaskLists.Add(entity);
-
             await _todoContext.SaveChangesAsync();
-            return CreatedAtAction(nameof(Get), new { id = entity.Id },
-                                    _mapper.Map<TaskListDto>(entity));
+
+            return CreatedAtAction(nameof(Get), new { id = entity.Id }, _mapper.Map<TaskListDto>(entity));
         }
 
         [HttpPut("{id:int}")]
         public async Task<ActionResult<TaskListDto>> Update(int id, UpdateTaskListDto dto)
         {
-            var entity = await _todoContext.TaskLists.FindAsync(id);
+            var entity = await _todoContext.TaskLists.SingleOrDefaultAsync(t => t.Id == id && t.UserId == CurrentUserId(User));
             if (entity is null) return NotFound();
-
             _mapper.Map(dto, entity);
-
             await _todoContext.SaveChangesAsync();
 
             return Ok(_mapper.Map<TaskListDto>(entity));
@@ -61,10 +68,11 @@ namespace TodoApi.Controllers
         [HttpDelete("{id:int}")]
         public async Task<ActionResult> Delete(int id)
         {
-            var entity = await _todoContext.TaskLists.FindAsync(id);
+            var entity = await _todoContext.TaskLists.SingleOrDefaultAsync(t => t.Id == id && t.UserId == CurrentUserId(User));
             if (entity is null) return NotFound();
             _todoContext.TaskLists.Remove(entity);
             await _todoContext.SaveChangesAsync();
+
             return NoContent();
         }
     }
