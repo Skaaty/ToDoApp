@@ -24,16 +24,16 @@ namespace TodoApi.Controllers
             => (_todoContext,  _mapper) = (todoContext, mapper);
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<NotificationDTO>>> GetAll() 
-            => Ok(_mapper.Map<IEnumerable<NotificationDTO>>(await _todoContext.Notifications.ToListAsync()));
+        public async Task<ActionResult<IEnumerable<NotificationDto>>> GetAll() 
+            => Ok(_mapper.Map<IEnumerable<NotificationDto>>(await _todoContext.Notifications.ToListAsync()));
 
         [HttpPost]
-        public async Task<ActionResult<NotificationDTO>> Create(CreateNotificationDTO dto)
+        public async Task<ActionResult<NotificationDto>> Create(CreateNotificationDto dto)
         {
-            var notif = _mapper.Map<NotificationDTO>(dto);
+            var notif = _mapper.Map<NotificationDto>(dto);
             _todoContext.Add(notif);
             await _todoContext.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetAll), null, _mapper.Map<NotificationDTO>(notif));
+            return CreatedAtAction(nameof(GetAll), null, _mapper.Map<NotificationDto>(notif));
         }
     }
 }
