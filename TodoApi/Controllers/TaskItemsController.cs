@@ -23,7 +23,7 @@ namespace TodoApi.Controllers
             => (_todoContext, _mapper) = (todoContext, mapper);
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<TaskItemDTO>>> GetAll([FromQuery] TaskItemQuery query)
+        public async Task<ActionResult<IEnumerable<TaskItemDto>>> GetAll([FromQuery] TaskItemQuery query)
         {
             var qry = _todoContext.TaskItems
                 .Include(ti => ti.TaskItemTags).ThenInclude(nam => nam.Tag)
@@ -39,21 +39,21 @@ namespace TodoApi.Controllers
                 .Take(query.PageSize)
                 .ToListAsync();
 
-            return Ok(_mapper.Map<IEnumerable<TaskItemDTO>>(items));
+            return Ok(_mapper.Map<IEnumerable<TaskItemDto>>(items));
         }
 
         [HttpGet("{id:int}")]
-        public async Task<ActionResult<TaskItemDTO>> Get(int id)
+        public async Task<ActionResult<TaskItemDto>> Get(int id)
         {
             var item = await _todoContext.TaskItems
                 .Include(ti => ti.TaskItemTags).ThenInclude(tit => tit.Tag)
                 .FirstOrDefaultAsync(t => t.Id == id);
 
-            return item is null ? NotFound() : Ok(_mapper.Map<TaskItemDTO>(item));
+            return item is null ? NotFound() : Ok(_mapper.Map<TaskItemDto>(item));
         }
 
         [HttpPost]
-        public async Task<ActionResult<TaskItemDTO>> Create(CreateTaskItemDTO dto)
+        public async Task<ActionResult<TaskItemDto>> Create(CreateTaskItemDto dto)
         {
             var entity = _mapper.Map<TaskItem>(dto);
             _todoContext.TaskItems.Add(entity);
@@ -64,11 +64,11 @@ namespace TodoApi.Controllers
             }
 
             await _todoContext.SaveChangesAsync();
-            return CreatedAtAction(nameof(Get), new {id = entity.Id}, _mapper.Map<TaskItemDTO>(entity));
+            return CreatedAtAction(nameof(Get), new {id = entity.Id}, _mapper.Map<TaskItemDto>(entity));
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<TaskItemDTO>> Update(int id, UpdateTaskItemDTO dto)
+        public async Task<ActionResult<TaskItemDto>> Update(int id, UpdateTaskItemDto dto)
         {
             var entity = await _todoContext.TaskItems
                 .Include(ti => ti.TaskItemTags)
@@ -85,7 +85,7 @@ namespace TodoApi.Controllers
             }
 
             await _todoContext.SaveChangesAsync();
-            return Ok(_mapper.Map<TaskItemDTO>(entity));
+            return Ok(_mapper.Map<TaskItemDto>(entity));
         }
 
         [HttpDelete("{id}")]
