@@ -22,25 +22,25 @@ namespace TodoApi.Controllers
             => (_todoContext,  _mapper) = (todoContext, mapper);
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<TaskListDTO>>> GetAll()
-            => Ok(_mapper.Map<IEnumerable<TaskListDTO>>(await _todoContext.TaskLists.ToListAsync()));
+        public async Task<ActionResult<IEnumerable<TaskListDto>>> GetAll()
+            => Ok(_mapper.Map<IEnumerable<TaskListDto>>(await _todoContext.TaskLists.ToListAsync()));
 
         [HttpGet("{id:int}")]
-        public async Task<ActionResult<TaskListDTO>> Get(int id)
-            => await _todoContext.TaskLists.FindAsync(id) is TaskList tl ? Ok(_mapper.Map<TaskListDTO>(tl)) : NotFound();
+        public async Task<ActionResult<TaskListDto>> Get(int id)
+            => await _todoContext.TaskLists.FindAsync(id) is TaskList tl ? Ok(_mapper.Map<TaskListDto>(tl)) : NotFound();
 
         [HttpPost]
-        public async Task<ActionResult<TaskListDto>> Create(CreateTaskListDTO dto)
+        public async Task<ActionResult<TaskListDto>> Create(CreateTaskListDto dto)
         {
             var entity = _mapper.Map<TaskList>(dto);
             entity.UserId = 1;
             _todoContext.TaskLists.Add(entity);
             await _todoContext.SaveChangesAsync();
-            return CreatedAtAction(nameof(Get), new { id = entity.Id }, _mapper.Map<TaskListDTO>(entity));
+            return CreatedAtAction(nameof(Get), new { id = entity.Id }, _mapper.Map<TaskListDto>(entity));
         }
 
         [HttpPut("{id:int}")]
-        public async Task<ActionResult<TaskListDTO>> Update(int id, UpdateTaskListDTO dto)
+        public async Task<ActionResult<TaskListDto>> Update(int id, UpdateTaskListDto dto)
         {
             var entity = await _todoContext.TaskLists.FindAsync(id);
             if (entity is null) return NotFound();
@@ -49,10 +49,10 @@ namespace TodoApi.Controllers
 
             await _todoContext.SaveChangesAsync();
 
-            return Ok(_mapper.Map<TaskListDTO>(entity));
+            return Ok(_mapper.Map<TaskListDto>(entity));
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id:int}")]
         public async Task<ActionResult> Delete(int id)
         {
             var entity = await _todoContext.TaskLists.FindAsync(id);

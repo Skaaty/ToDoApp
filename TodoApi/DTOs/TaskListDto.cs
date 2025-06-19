@@ -1,9 +1,8 @@
 ﻿namespace TodoApi.DTOs
 {
-    public class TaskListDto
-    {
-        public record TaskListDTO(int Id, string Name, string? Description, int UserId);
-        public record CreateTaskListDTO(string Name, string? Description);
-        public record UpdateTaskListDTO(string Name, string? Description);
-    }
+
+public record TaskListDto(int Id, string Name, string? Description, int UserId);
+public record CreateTaskListDto(string Name, string? Description);
+public record UpdateTaskListDto(string Name, string? Description);
+
 }

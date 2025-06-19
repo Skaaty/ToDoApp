@@ -1,9 +1,6 @@
 ﻿namespace TodoApi.DTOs
 {
-    public class TagDto
-    {
-        public record TagDTO(int Id, string Name);
-        public record CreateTagDTO(string Name);
-        public record UpdateTagDTO(string Name);
-    }
+        public record TagDto(int Id, string Name);
+        public record CreateTagDto(string Name);
+        public record UpdateTagDto(string Name);
 }
