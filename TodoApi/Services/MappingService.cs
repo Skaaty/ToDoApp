@@ -14,8 +14,16 @@ namespace TodoApi.Services
         {
             //Task List
             CreateMap<TaskList, TaskListDTO>();
+
+            CreateMap<TaskListDTO, TaskList>()
+                .ForMember(d => d.Id, o => o.Ignore())
+                .ForMember(d => d.UserId, o => o.Ignore());
+
             CreateMap<CreateTaskListDTO, TaskList>();
-            CreateMap<UpdateTaskListDTO, TaskList>();
+            CreateMap<UpdateTaskListDTO, TaskList>()
+                .ForMember(d => d.Id, o => o.Ignore())
+                .ForMember(d => d.UserId, o => o.Ignore())
+                .ForMember(d => d.Items, o => o.Ignore());
 
             CreateMap<Tag, TagDTO>();
             CreateMap<CreateTagDTO,  TagDTO>();

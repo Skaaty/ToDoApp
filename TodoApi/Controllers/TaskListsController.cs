@@ -39,14 +39,16 @@ namespace TodoApi.Controllers
             return CreatedAtAction(nameof(Get), new { id = entity.Id }, _mapper.Map<TaskListDTO>(entity));
         }
 
-        [HttpPut("{id}")]
-        public async Task<ActionResult<TaskListDTO>> Update(int id, TaskListDTO dto)
+        [HttpPut("{id:int}")]
+        public async Task<ActionResult<TaskListDTO>> Update(int id, UpdateTaskListDTO dto)
         {
             var entity = await _todoContext.TaskLists.FindAsync(id);
             if (entity is null) return NotFound();
+
             _mapper.Map(dto, entity);
 
             await _todoContext.SaveChangesAsync();
+
             return Ok(_mapper.Map<TaskListDTO>(entity));
         }
 
