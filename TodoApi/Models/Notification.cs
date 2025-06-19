@@ -7,6 +7,7 @@
         public DateTime FireAtUtc { get; set; }
         public string? Message { get; set; }
 
+        public bool Sent { get; set; }
         public TaskItem TaskItem { get; set; } = null!;
     }
 }
