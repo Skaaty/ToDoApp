@@ -9,6 +9,7 @@ using TodoApi.Services;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using TodoApi.Workers;
 
 namespace TodoApi
 {
@@ -59,6 +60,10 @@ namespace TodoApi
             // Enable FluentValidation automatic model validation
             builder.Services.AddFluentValidationAutoValidation();
             builder.Services.AddValidatorsFromAssemblyContaining<Program>();
+
+            // Email sender
+            builder.Services.AddScoped<IEmailSender, ConsoleEmailSender>();
+            builder.Services.AddHostedService<NotificationDispatcher>();
 
             // Swagger/OpenAPI
             builder.Services.AddEndpointsApiExplorer();
