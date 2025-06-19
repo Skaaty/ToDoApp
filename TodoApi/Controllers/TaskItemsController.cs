@@ -6,7 +6,6 @@ using AutoMapper;
 using TodoApi.Data;
 using TodoApi.Models;
 using TodoApi.DTOs;
-using static TodoApi.DTOs.TaskItemDto;
 using Microsoft.VisualBasic;
 
 namespace TodoApi.Controllers

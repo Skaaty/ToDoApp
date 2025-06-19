@@ -6,7 +6,6 @@ using AutoMapper;
 using TodoApi.Data;
 using TodoApi.Models;
 using TodoApi.DTOs;
-using static TodoApi.DTOs.TagDto;
 using Microsoft.VisualBasic;
 using System.Collections;
 

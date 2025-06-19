@@ -6,7 +6,6 @@ using AutoMapper;
 using TodoApi.Data;
 using TodoApi.Models;
 using TodoApi.DTOs;
-using static TodoApi.DTOs.NotificationDto;
 using Microsoft.VisualBasic;
 using System.Collections;
 
