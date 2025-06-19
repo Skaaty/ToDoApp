@@ -26,6 +26,7 @@ namespace TodoApi.Controllers
             var dto = new
             {
                 id = User.FindFirstValue(ClaimTypes.NameIdentifier),
+                email = User.FindFirstValue(ClaimTypes.Email) ?? User.FindFirstValue("email"),
                 name = User.Identity?.Name
             };
 
@@ -58,8 +59,9 @@ namespace TodoApi.Controllers
         {
             var claims = new[]
             {
-                new Claim(ClaimTypes.NameIdentifier, user.Id),
-                new Claim(ClaimTypes.Name, user.UserName!)
+                new Claim(ClaimTypes.NameIdentifier, user.Id), //sub
+                new Claim(ClaimTypes.Name, user.UserName!), //name
+                new Claim(ClaimTypes.Email, user.Email!) //email
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_cfg["JwtSettings:Key"]!));
