@@ -13,31 +13,31 @@ namespace TodoApi.Services
         public MappingService()
         {
             //Task List
-            CreateMap<TaskList, TaskListDTO>();
+            CreateMap<TaskList, TaskListDto>();
 
-            CreateMap<TaskListDTO, TaskList>()
+            CreateMap<TaskListDto, TaskList>()
                 .ForMember(d => d.Id, o => o.Ignore())
                 .ForMember(d => d.UserId, o => o.Ignore());
 
-            CreateMap<CreateTaskListDTO, TaskList>();
-            CreateMap<UpdateTaskListDTO, TaskList>()
+            CreateMap<CreateTaskListDto, TaskList>();
+            CreateMap<UpdateTaskListDto, TaskList>()
                 .ForMember(d => d.Id, o => o.Ignore())
                 .ForMember(d => d.UserId, o => o.Ignore())
                 .ForMember(d => d.Items, o => o.Ignore());
 
-            CreateMap<Tag, TagDTO>();
-            CreateMap<CreateTagDTO,  TagDTO>();
-            CreateMap<UpdateTaskListDTO,  TagDTO>();
+            CreateMap<Tag, TagDto>();
+            CreateMap<CreateTagDto,  TagDto>();
+            CreateMap<UpdateTaskListDto,  TagDto>();
 
-            CreateMap<Notification, NotificationDTO>();
-            CreateMap<CreateNotificationDTO, Notification>();
+            CreateMap<Notification, NotificationDto>();
+            CreateMap<CreateNotificationDto, Notification>();
 
-            CreateMap<TaskItem, TaskItemDTO>()
+            CreateMap<TaskItem, TaskItemDto>()
                 .ForMember(d => d.Tags, opt =>
                     opt.MapFrom(s => s.TaskItemTags.Select(t => t.Tag!.Name)));
 
-            CreateMap<CreateTaskItemDTO, TaskItem>();
-            CreateMap<UpdateTaskItemDTO, TaskItem>()
+            CreateMap<CreateTaskItemDto, TaskItem>();
+            CreateMap<UpdateTaskItemDto, TaskItem>()
                 .ForMember(d => d.TaskItemTags, opt => opt.Ignore());
 
         }
