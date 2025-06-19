@@ -1,9 +1,9 @@
 ﻿using FluentValidation;
-using static TodoApi.DTOs.NotificationDto;
+using TodoApi.DTOs;
 
 namespace TodoApi.Validation
 {
-    public class CreateNotificationValidator : AbstractValidator<CreateNotificationDTO>
+    public class CreateNotificationValidator : AbstractValidator<CreateNotificationDto>
     {
         public CreateNotificationValidator()
         {

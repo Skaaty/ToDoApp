@@ -1,9 +1,9 @@
 ﻿using FluentValidation;
-using static TodoApi.DTOs.TaskItemDto;
+using TodoApi.DTOs;
 
 namespace TodoApi.Validation
 {
-    public class UpdateTaskItemValidator : AbstractValidator<CreateTaskItemDTO>
+    public class UpdateTaskItemValidator : AbstractValidator<CreateTaskItemDto>
     {
         public UpdateTaskItemValidator()
         {

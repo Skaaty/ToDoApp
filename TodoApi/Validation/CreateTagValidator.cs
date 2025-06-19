@@ -1,9 +1,9 @@
 ﻿using FluentValidation;
-using static TodoApi.DTOs.TagDto;
+using TodoApi.DTOs;
 
 namespace TodoApi.Validation
 {
-    public class CreateTagValidator : AbstractValidator<CreateTagDTO>
+    public class CreateTagValidator : AbstractValidator<CreateTagDto>
     {
         public CreateTagValidator()
         {
