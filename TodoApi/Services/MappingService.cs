@@ -41,7 +41,8 @@ namespace TodoApi.Services
 
             CreateMap<Notification, NotificationDto>();
             CreateMap<CreateNotificationDto, Notification>()
-                .ForMember(d => d.Id, o => o.Ignore());
+                .ForMember(d => d.Id, o => o.Ignore())
+                .ForMember(d => d.Sent, o => o.Ignore());
 
             
 

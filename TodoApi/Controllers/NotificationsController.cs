@@ -54,7 +54,7 @@ namespace TodoApi.Controllers
             return CreatedAtAction(nameof(Get), new { id = entity.Id }, _mapper.Map<NotificationDto>(entity));
         }
 
-        [HttpDelete]
+        [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete(int id)
         {
             var userId = CurrentUserId(User);
