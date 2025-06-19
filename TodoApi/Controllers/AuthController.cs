@@ -19,6 +19,19 @@ namespace TodoApi.Controllers
         public AuthController(UserManager<IdentityUser> userManager, IConfiguration cfg)
             => (_userManager, _cfg) = (userManager, cfg);
 
+        [Authorize]
+        [HttpGet("me")]
+        public IActionResult Me()
+        {
+            var dto = new
+            {
+                id = User.FindFirstValue(ClaimTypes.NameIdentifier),
+                name = User.Identity?.Name
+            };
+
+            return Ok(dto);
+        }
+
         [HttpPost("register")]
         [AllowAnonymous]
         public async Task<ActionResult> Register(RegisterDto dto)
