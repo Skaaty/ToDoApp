@@ -24,30 +24,30 @@ namespace TodoApi.Controllers
             => (_todoContext, _mapper) = (todoContext, mapper);
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<TagDTO>>> GetAll()
-            => Ok(_mapper.Map<IEnumerable<TagDTO>>(await _todoContext.Tags.ToListAsync()));
+        public async Task<ActionResult<IEnumerable<TagDto>>> GetAll()
+            => Ok(_mapper.Map<IEnumerable<TagDto>>(await _todoContext.Tags.ToListAsync()));
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<TagDTO>> Get(int id)
-            => await _todoContext.Tags.FindAsync(id) is Tag tag ? Ok(_mapper.Map<TagDTO>(tag)) : NotFound();
+        public async Task<ActionResult<TagDto>> Get(int id)
+            => await _todoContext.Tags.FindAsync(id) is Tag tag ? Ok(_mapper.Map<TagDto>(tag)) : NotFound();
 
         [HttpPost]
-        public async Task<ActionResult<TagDTO>> Create(CreateTagDTO dto)
+        public async Task<ActionResult<TagDto>> Create(CreateTagDto dto)
         {
             var tag = _mapper.Map<Tag>(dto);
             _todoContext.Tags.Add(tag);
             await _todoContext.SaveChangesAsync();
-            return CreatedAtAction(nameof(Get), new { id = tag.Id }, _mapper.Map<TagDTO>(tag));
+            return CreatedAtAction(nameof(Get), new { id = tag.Id }, _mapper.Map<TagDto>(tag));
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<TagDTO>> Update(int id, UpdateTagDTO dto)
+        public async Task<ActionResult<TagDto>> Update(int id, UpdateTagDto dto)
         {
             var tag = await _todoContext.Tags.FindAsync(id);
             if (tag is null) return NotFound();
             _mapper.Map(dto, tag);
             await _todoContext.SaveChangesAsync();
-            return Ok(_mapper.Map<TagDTO>(tag));
+            return Ok(_mapper.Map<TagDto>(tag));
         }
 
         [HttpDelete("{id}")]
