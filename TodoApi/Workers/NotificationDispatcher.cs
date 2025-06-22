@@ -29,22 +29,25 @@ namespace TodoApi.Workers
 
                 var due = await ctx.Notifications
                                    .Include(n => n.TaskItem.TaskList)
-                                   .Where(n => !n.Sent &&
-                                               n.FireAtUtc <= DateTime.UtcNow)
+                                   .Where(n => !n.Sent && n.FireAtUtc <= DateTime.UtcNow)
                                    .ToListAsync(stop);
+
+                _logger.LogDebug("Dispatcher checked at {UtcNow}. Due count = {Count}",
+                                 DateTime.UtcNow, due.Count);
 
                 foreach (var n in due)
                 {
+                    var body = string.IsNullOrWhiteSpace(n.Message) ? $"Task \"{n.TaskItem.Name}\" is due to be completed." : n.Message;
+
                     var to = await ctx.Users
                                       .Where(u => u.Id == n.TaskItem.TaskList!.UserId)
                                       .Select(u => u.Email)
                                       .FirstAsync(stop);
 
-                    var body = n.Message ?? $"Zadanie \"{n.TaskItem.Name}\" jest już do wykonania.";
-                    await email.SendAsync(to, "Przypomnienie o zadaniu", body, stop);
+                    await email.SendAsync(to, "Notification about the task", body, stop);
 
                     n.Sent = true;
-                    _logger.LogInformation("Notification {Id} sent to {Email}", n.Id, to);
+                    _logger.LogInformation("Notification {Id} | Task: \"{TaskName}\" | To: {Email} | Body: \"{Body}\"", n.Id, n.TaskItem.Name, to, body);
                 }
 
                 await ctx.SaveChangesAsync(stop);

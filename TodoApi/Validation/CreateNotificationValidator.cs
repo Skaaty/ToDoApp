@@ -11,7 +11,6 @@ namespace TodoApi.Validation
                 .NotEmpty();
 
             RuleFor(x => x.Message)
-                .NotEmpty()
                 .MaximumLength(250);
         }
     }
