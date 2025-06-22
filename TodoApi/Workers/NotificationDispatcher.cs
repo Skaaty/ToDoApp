@@ -36,7 +36,7 @@ namespace TodoApi.Workers
                 foreach (var n in due)
                 {
                     var to = await ctx.Users
-                                      .Where(u => u.Id == n.TaskItem.TaskList.UserId)
+                                      .Where(u => u.Id == n.TaskItem.TaskList!.UserId)
                                       .Select(u => u.Email)
                                       .FirstAsync(stop);
 

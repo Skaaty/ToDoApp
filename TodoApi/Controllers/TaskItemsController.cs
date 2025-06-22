@@ -63,10 +63,17 @@ namespace TodoApi.Controllers
             }
 
             await _todoContext.SaveChangesAsync();
+
+            await _todoContext.Entry(entity)
+                                .Collection(t => t.TaskItemTags)
+                                .Query()
+                                .Include(tit => tit.Tag)
+                                .LoadAsync();
+
             return CreatedAtAction(nameof(Get), new {id = entity.Id}, _mapper.Map<TaskItemDto>(entity));
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("{id:int}")]
         public async Task<ActionResult<TaskItemDto>> Update(int id, UpdateTaskItemDto dto)
         {
             var entity = await _todoContext.TaskItems
@@ -87,7 +94,7 @@ namespace TodoApi.Controllers
             return Ok(_mapper.Map<TaskItemDto>(entity));
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete(int id)
         {
             var entity = await _todoContext.TaskItems.FindAsync(id);

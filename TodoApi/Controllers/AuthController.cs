@@ -59,9 +59,9 @@ namespace TodoApi.Controllers
         {
             var claims = new[]
             {
-                new Claim(ClaimTypes.NameIdentifier, user.Id), //sub
-                new Claim(ClaimTypes.Name, user.UserName!), //name
-                new Claim(ClaimTypes.Email, user.Email!) //email
+                new Claim(ClaimTypes.NameIdentifier, user.Id), 
+                new Claim(ClaimTypes.Name, user.UserName!), 
+                new Claim(ClaimTypes.Email, user.Email!) 
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_cfg["JwtSettings:Key"]!));
