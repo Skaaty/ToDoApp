@@ -9,7 +9,8 @@ namespace TodoApi.Validation
         {
             RuleFor(x => x.Name)
                 .NotEmpty()
-                .MaximumLength(50);
+                .MaximumLength(50)
+                .Matches(@"^[\p{L}\p{N}\s\-]+$");
         }
     }
 }

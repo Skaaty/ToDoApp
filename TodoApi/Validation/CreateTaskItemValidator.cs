@@ -30,8 +30,10 @@ namespace TodoApi.Validation
                 .GreaterThan(0);
 
             RuleFor(x => x.TagIds)
-                .Must(ids => ids.Distinct().Count() == ids.Count())
-                .WithMessage("Tag Ids must be unique.");
+                .Must(list => list == null || list.Count() <= 10)
+                .WithMessage("A task can have at most 10 tags.")
+                .Must(list => list == null || list.Distinct().Count() == list.Count())
+                .WithMessage("Duplicate tags are not allowed.");
         }
     }
 }

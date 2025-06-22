@@ -3,17 +3,21 @@ using TodoApi.DTOs;
 
 namespace TodoApi.Validation
 {
-    public class UpdateTaskItemValidator : AbstractValidator<CreateTaskItemDto>
+    public class UpdateTaskItemValidator : AbstractValidator<UpdateTaskItemDto>
     {
         public UpdateTaskItemValidator()
         {
             RuleFor(x => x.Name)
-                .NotEmpty()
-                .MaximumLength(120);
+                .MaximumLength(200)
+                .When(x => x.Name != null);
 
             RuleFor(x => x.DueDate)
-                .Must(d => d is null || d.Value.Date >= DateTime.UtcNow.Date)
-                .WithMessage("Due date cannot be a date from the past.");
+                .GreaterThanOrEqualTo(DateTime.Today)
+                .When(x => x.DueDate.HasValue);
+
+            RuleFor(x => x.Priority)
+                .IsInEnum()
+                .When(x => x.Priority.HasValue);
 
             RuleFor(x => x.TagIds)
                 .NotNull();

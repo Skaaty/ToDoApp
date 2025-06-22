@@ -11,8 +11,8 @@ namespace TodoApi.Validation
                 .NotEmpty()
                 .MaximumLength(120);
 
-            RuleFor(y => y.Name)
-                .MaximumLength(500);
+            RuleFor(x => x.Description)
+                .MaximumLength(300);
         }
     }
 }

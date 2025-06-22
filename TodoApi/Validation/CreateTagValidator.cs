@@ -9,7 +9,9 @@ namespace TodoApi.Validation
         {
             RuleFor(x => x.Name)
                 .NotEmpty()
-                .MaximumLength(50);
+                .MaximumLength(50)
+                .Matches(@"^[\p{L}\p{N}\s\-]+$")
+                .WithMessage("Only letters, numbers, spaces and dashes are allowed.");
         }
     }
 }
