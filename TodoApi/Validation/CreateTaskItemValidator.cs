@@ -12,10 +12,15 @@ namespace TodoApi.Validation
                 .MaximumLength(120);
 
             RuleFor(x => x.DueDate)
-                .Must(d => d is null || d.Value.Date >= DateTime.UtcNow.Date)
-                .WithMessage("Due date cannot be a date from the past.");
+                .GreaterThanOrEqualTo(DateTime.Today)
+                .When(x => x.DueDate.HasValue);
+
+            RuleFor(x => x.Priority)
+                .IsInEnum()
+                .When(x => x.Priority.HasValue);
 
             RuleFor(x => x.TaskListId)
+                .NotEmpty()
                 .GreaterThan(0);
 
             RuleFor(x => x.TagIds)
