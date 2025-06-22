@@ -90,7 +90,13 @@ namespace TodoApi
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
-                app.UseSwaggerUI();
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "ToDo API v1");
+                    c.DefaultModelsExpandDepth(-1);
+                });
+
+
             }
 
             app.UseHttpsRedirection();
