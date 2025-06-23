@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using TodoApi.DTOs;
 
 namespace TodoApi.Controllers
 {
@@ -80,5 +81,3 @@ namespace TodoApi.Controllers
     }
 }
 
-public record RegisterDto(string UserName, string Email, string Password);
-public record LoginDto(string UserName, string Password);
